@@ -3,9 +3,8 @@ package com.review.servicemanagement.dto;
 import lombok.Data;
 
 @Data
-public class ResponseCategoryDTO {
-
+public class ResponseRatingsDTO {
     String id;
-    String categoryName;
-    int ratingsValue;
+    String serviceId;
+    int ratingValue;
 }
