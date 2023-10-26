@@ -51,7 +51,7 @@ public class service implements  Iservice{
             if(serviceData.getCategoryId() != null) {
                 category = categoryRepo.findById(UUID.fromString(serviceData.getCategoryId()));
             }
-            if(category.isEmpty())
+            if(category == null ||  category.isEmpty())
             {                category = Optional.ofNullable(this.categoryService.findOrCreateUnListedCategory());
             }
             serviceModel.setCategory(category.get());

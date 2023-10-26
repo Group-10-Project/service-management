@@ -14,6 +14,6 @@ public class ServiceModel  extends BaseModel{
     private String description;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_id")
     private CategoryModel category;
 }
