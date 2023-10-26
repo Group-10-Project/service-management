@@ -20,7 +20,7 @@ public class servicesController {
     }
 
     @GetMapping("{id}")
-    public ResponseServiceDTO getServices(@PathVariable int id){
+    public ResponseServiceDTO getServices(@PathVariable String id){
         return this.service.getServices(id);
     }
 
@@ -34,18 +34,18 @@ public class servicesController {
 
 
     @PostMapping
-    public ResponseServiceDTO createService(@RequestBody createServiceDTO serviceData) {
+    public ResponseServiceDTO createService(@RequestBody createServiceDTO serviceData) throws Exception {
         return this.service.createService(serviceData);
 
     }
 
     @PutMapping({"/{id}"})
-    public ResponseServiceDTO updateService(@PathVariable String id,@RequestBody UpdateServiceDTO serviceInfo){
+    public ResponseServiceDTO updateService (@PathVariable String id,@RequestBody UpdateServiceDTO serviceInfo)  throws Exception{
         return this.service.updateService(id,serviceInfo);
     }
 
     @DeleteMapping({"/{id}"})
-    public Boolean deleteService(@PathVariable String id){
+    public Boolean deleteService(@PathVariable String id) throws Exception {
         return this.service.deleteService(id);
     }
 

@@ -3,56 +3,84 @@ package com.review.servicemanagement.services;
 import com.review.servicemanagement.dto.ResponseServiceDTO;
 import com.review.servicemanagement.dto.UpdateServiceDTO;
 import com.review.servicemanagement.dto.createServiceDTO;
+import com.review.servicemanagement.models.CategoryModel;
+import com.review.servicemanagement.models.ServiceModel;
+import com.review.servicemanagement.repository.CategoryRepository;
+import com.review.servicemanagement.repository.ServiceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class service implements  Iservice{
 
+    CategoryRepository categoryRepo;
+    ServiceRepository serviceRepo;
 
+    public service(CategoryRepository repo,ServiceRepository serviceRepo){
+        this.categoryRepo = repo;
+        this.serviceRepo = serviceRepo;
+    }
     @Override
-    public ResponseServiceDTO getServices(int id) {
-        ResponseServiceDTO service = new ResponseServiceDTO();
-        service.setId(UUID.randomUUID());
-        service.setDescription("Your ID Is : "+ id);
-        return service;
+    public ResponseServiceDTO getServices(String id) {
+        Optional<ServiceModel> service = this.serviceRepo.findById(UUID.fromString(id));
+        if(service.isEmpty()) return null;
+        return ResponseServiceDTO.from(service.get());
     }
 
     @Override
     public List<ResponseServiceDTO> getAllServices() {
-        List<ResponseServiceDTO> services = new ArrayList<>();
-        ResponseServiceDTO service = new ResponseServiceDTO();
-        service.setId(UUID.randomUUID());
-        service.setName("Dummy");
-        service.setDescription("Dummy Description");
-        services.add(service);
-        return services;
+
+         List<ServiceModel> services =   serviceRepo.findAll();
+         return ResponseServiceDTO.from(services);
     }
 
     @Override
-    public ResponseServiceDTO createService(createServiceDTO serviceData) {
-        ResponseServiceDTO service = new ResponseServiceDTO();
+    public ResponseServiceDTO createService(createServiceDTO serviceData) throws Exception {
 
-        service.setId(UUID.randomUUID());
-        service.setName(serviceData.getName());
-        service.setDescription(serviceData.getDescription());
-        return service;
+        ServiceModel serviceModel = new ServiceModel();
+            serviceModel.setDescription(serviceData.getDescription());
+            serviceModel.setName(serviceData.getName());
+            Optional<CategoryModel> category =  categoryRepo.findById(UUID.fromString(serviceData.getCategoryId()));
+            if(category.isEmpty()){
+                throw new Exception("Category Not Found");
+            }
+            serviceModel.setCategory(category.get());
+            ServiceModel storedServiceModel = serviceRepo.save(serviceModel);
+        return ResponseServiceDTO.from(storedServiceModel);
     }
 
     @Override
-    public ResponseServiceDTO updateService(String id, UpdateServiceDTO serviceInfo) {
-        ResponseServiceDTO service = new ResponseServiceDTO();
+    public ResponseServiceDTO updateService(String id, UpdateServiceDTO serviceInfo) throws Exception {
+
+        ServiceModel service = new ServiceModel();
+        service.setId(UUID.fromString(serviceInfo.getId()));
         service.setDescription(serviceInfo.getDescription());
         service.setName(serviceInfo.getName());
-        service.setId(UUID.randomUUID());
-        return service;
+
+        Optional<CategoryModel> category =  categoryRepo.findById(UUID.fromString(serviceInfo.getCategoryId()));
+        if(category.isEmpty()) {
+                throw new Exception("Unable to Find the Category");
+        }
+        else {
+            service.setCategory(category.get());
+        }
+        ServiceModel storedService = this.serviceRepo.saveAndFlush(service);
+        return ResponseServiceDTO.from(storedService);
+
     }
 
     @Override
-    public Boolean deleteService(String id) {
-        return null;
+    public Boolean deleteService(String id) throws Exception {
+        UUID uuid = UUID.fromString(id);
+        Optional<ServiceModel> service =  this.serviceRepo.findById(uuid);
+        if(service.isEmpty()){
+            throw new Exception("Service Not Found");
+        }
+        this.serviceRepo.deleteById(uuid);
+        return true;
     }
 }

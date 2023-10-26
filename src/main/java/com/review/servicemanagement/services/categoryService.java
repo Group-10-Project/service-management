@@ -3,6 +3,8 @@ package com.review.servicemanagement.services;
 import com.review.servicemanagement.dto.ResponseCategoryDTO;
 import com.review.servicemanagement.dto.createCategoryDTO;
 import com.review.servicemanagement.dto.updateCategoryDTO;
+import com.review.servicemanagement.models.CategoryModel;
+import com.review.servicemanagement.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,14 +13,17 @@ import java.util.UUID;
 
 @Service
 public class categoryService  implements  Icategory{
-
-
+    CategoryRepository categoryRepository;
+    private categoryService(CategoryRepository repository){
+        this.categoryRepository = repository;
+    }
     @Override
     public ResponseCategoryDTO createCategory(createCategoryDTO category) {
-        ResponseCategoryDTO categoryDTO = new ResponseCategoryDTO();
-        categoryDTO.setCategoryName(category.getCategoryName());
-        categoryDTO.setId(UUID.randomUUID().toString());
-        return categoryDTO;
+
+        CategoryModel categoryModel = new CategoryModel();
+        categoryModel.setCategoryName(category.getCategoryName());
+        CategoryModel storedCategory = categoryRepository.save(categoryModel);
+        return ResponseCategoryDTO.from(storedCategory);
     }
 
     @Override
