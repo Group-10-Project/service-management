@@ -19,10 +19,12 @@ public class service implements  Iservice{
 
     CategoryRepository categoryRepo;
     ServiceRepository serviceRepo;
+    Icategory categoryService;
 
-    public service(CategoryRepository repo,ServiceRepository serviceRepo){
+    public service(CategoryRepository repo,ServiceRepository serviceRepo,Icategory CategoryService){
         this.categoryRepo = repo;
         this.serviceRepo = serviceRepo;
+        this.categoryService = CategoryService;
     }
     @Override
     public ResponseServiceDTO getServices(String id) {
@@ -44,9 +46,13 @@ public class service implements  Iservice{
         ServiceModel serviceModel = new ServiceModel();
             serviceModel.setDescription(serviceData.getDescription());
             serviceModel.setName(serviceData.getName());
-            Optional<CategoryModel> category =  categoryRepo.findById(UUID.fromString(serviceData.getCategoryId()));
-            if(category.isEmpty()){
-                throw new Exception("Category Not Found");
+            Optional<CategoryModel> category = null;
+
+            if(serviceData.getCategoryId() != null) {
+                category = categoryRepo.findById(UUID.fromString(serviceData.getCategoryId()));
+            }
+            if(category.isEmpty())
+            {                category = Optional.ofNullable(this.categoryService.findOrCreateUnListedCategory());
             }
             serviceModel.setCategory(category.get());
             ServiceModel storedServiceModel = serviceRepo.save(serviceModel);

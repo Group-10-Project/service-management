@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/category")
 public class categoryController {
 
-    private Icategory categoryService;
+    private final Icategory categoryService;
     public categoryController(Icategory categoryService){
         this.categoryService = categoryService;
     }
@@ -31,12 +31,12 @@ public class categoryController {
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteCategory(@PathVariable String id){
+    public Boolean deleteCategory(@PathVariable String id) throws Exception {
         return this.categoryService.deleteCategory(id);
     }
 
     @PutMapping("/{id}")
-    public updateCategoryDTO updateCategory(@PathVariable String id, @RequestBody updateCategoryDTO category ){
+    public ResponseCategoryDTO updateCategory(@PathVariable String id, @RequestBody updateCategoryDTO category )throws Exception{
         return this.categoryService.updateCategory(id,category);
     }
 
