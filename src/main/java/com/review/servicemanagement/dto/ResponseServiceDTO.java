@@ -1,5 +1,6 @@
 package com.review.servicemanagement.dto;
 
+import com.review.servicemanagement.models.Address;
 import com.review.servicemanagement.models.CategoryModel;
 import com.review.servicemanagement.models.ServiceModel;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class ResponseServiceDTO {
     String name;
     String description;
     CategoryModel category;
+    Address address;
 
     public static ResponseServiceDTO from(ServiceModel service) {
         ResponseServiceDTO ResponseServiceModel = new ResponseServiceDTO();
@@ -21,18 +23,14 @@ public class ResponseServiceDTO {
         ResponseServiceModel.setId(service.getId());
         ResponseServiceModel.setCategory(service.getCategory());
         ResponseServiceModel.setDescription(service.getDescription());
+        ResponseServiceModel.setAddress(service.getAddress());
         return ResponseServiceModel;
     }
     public static List<ResponseServiceDTO> from(List<ServiceModel> services) {
         List<ResponseServiceDTO> responseList = new ArrayList<>();
 
         services.forEach( service -> {
-        ResponseServiceDTO ResponseServiceModel = new ResponseServiceDTO();
-        ResponseServiceModel.setName(service.getName());
-        ResponseServiceModel.setId(service.getId());
-        ResponseServiceModel.setCategory(service.getCategory());
-        ResponseServiceModel.setDescription(service.getDescription());
-        responseList.add(ResponseServiceModel);
+        responseList.add(ResponseServiceDTO.from(service));
         });
 
         return responseList;

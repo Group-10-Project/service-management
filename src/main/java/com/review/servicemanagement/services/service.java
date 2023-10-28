@@ -3,6 +3,8 @@ package com.review.servicemanagement.services;
 import com.review.servicemanagement.dto.ResponseServiceDTO;
 import com.review.servicemanagement.dto.UpdateServiceDTO;
 import com.review.servicemanagement.dto.createServiceDTO;
+import com.review.servicemanagement.exceptions.NotFoundException;
+import com.review.servicemanagement.models.Address;
 import com.review.servicemanagement.models.CategoryModel;
 import com.review.servicemanagement.models.ServiceModel;
 import com.review.servicemanagement.repository.CategoryRepository;
@@ -27,7 +29,7 @@ public class service implements  Iservice{
         this.categoryService = CategoryService;
     }
     @Override
-    public ResponseServiceDTO getServices(String id) {
+    public ResponseServiceDTO getServiceById(String id) {
         Optional<ServiceModel> service = this.serviceRepo.findById(UUID.fromString(id));
         if(service.isEmpty()) return null;
         return ResponseServiceDTO.from(service.get());
@@ -41,7 +43,7 @@ public class service implements  Iservice{
     }
 
     @Override
-    public ResponseServiceDTO createService(createServiceDTO serviceData) throws Exception {
+    public ResponseServiceDTO createService(createServiceDTO serviceData){
 
         ServiceModel serviceModel = new ServiceModel();
             serviceModel.setDescription(serviceData.getDescription());
@@ -55,26 +57,51 @@ public class service implements  Iservice{
             {                category = Optional.ofNullable(this.categoryService.findOrCreateUnListedCategory());
             }
             serviceModel.setCategory(category.get());
+
+        Address address = new Address();
+        address.setPincode(serviceData.getAddress().getPincode());
+        address.setLocation(serviceData.getAddress().getLocation());
+        address.setStreetName(serviceData.getAddress().getStreetName());
+        address.setHouseNumber(serviceData.getAddress().getHouseNumber());
+        serviceModel.setAddress(address);
+
             ServiceModel storedServiceModel = serviceRepo.save(serviceModel);
         return ResponseServiceDTO.from(storedServiceModel);
     }
 
     @Override
-    public ResponseServiceDTO updateService(String id, UpdateServiceDTO serviceInfo) throws Exception {
+    public ResponseServiceDTO updateService(String id, UpdateServiceDTO serviceInfo) throws NotFoundException {
 
-        ServiceModel service = new ServiceModel();
+        Optional<ServiceModel> serviceOptional = serviceRepo.findById(UUID.fromString(id));
+        if (serviceOptional.isEmpty()) {
+
+        throw new NotFoundException("Service Not Found");
+            }
+
+        ServiceModel service = serviceOptional.get();
         service.setId(UUID.fromString(serviceInfo.getId()));
         service.setDescription(serviceInfo.getDescription());
         service.setName(serviceInfo.getName());
 
+
         Optional<CategoryModel> category =  categoryRepo.findById(UUID.fromString(serviceInfo.getCategoryId()));
         if(category.isEmpty()) {
-                throw new Exception("Unable to Find the Category");
+            throw new NotFoundException("Unable to Find the Category");
         }
         else {
-            service.setCategory(category.get());
+            CategoryModel categoryModel = category.get();
+            service.setCategory(categoryModel);
         }
-        ServiceModel storedService = this.serviceRepo.saveAndFlush(service);
+
+        Address address = serviceInfo.getAddress();
+        address.setId(serviceInfo.getAddress().getId());
+        address.setPincode(serviceInfo.getAddress().getPincode());
+        address.setLocation(serviceInfo.getAddress().getLocation());
+        address.setStreetName(serviceInfo.getAddress().getStreetName());
+        address.setHouseNumber(serviceInfo.getAddress().getHouseNumber());
+        service.setAddress(address);
+
+        ServiceModel storedService = this.serviceRepo.save(service);
         return ResponseServiceDTO.from(storedService);
 
     }

@@ -21,7 +21,7 @@ public class servicesController {
 
     @GetMapping("{id}")
     public ResponseServiceDTO getServices(@PathVariable String id){
-        return this.service.getServices(id);
+        return this.service.getServiceById(id);
     }
 
     @GetMapping("/all")

@@ -1,5 +1,6 @@
 package com.review.servicemanagement.dto;
 
+import com.review.servicemanagement.models.Address;
 import lombok.Data;
 
 
@@ -9,4 +10,5 @@ public class UpdateServiceDTO {
     String name;
     String description;
     String categoryId;
+    Address address;
 }

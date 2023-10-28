@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 public interface Iservice {
-    ResponseServiceDTO getServices(@PathVariable String id);
+    ResponseServiceDTO getServiceById(@PathVariable String id);
     List<ResponseServiceDTO> getAllServices();
     ResponseServiceDTO createService(@RequestBody createServiceDTO serviceData) throws Exception;
     ResponseServiceDTO updateService(@PathVariable String id,@RequestBody UpdateServiceDTO serviceInfo) throws Exception;

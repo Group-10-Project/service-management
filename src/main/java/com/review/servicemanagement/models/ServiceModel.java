@@ -12,8 +12,11 @@ import lombok.NoArgsConstructor;
 public class ServiceModel  extends BaseModel{
     private String name;
     private String description;
-
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "category_id")
     private CategoryModel category;
+
+    @OneToOne(cascade = {CascadeType.ALL,CascadeType.REMOVE})
+    @JoinColumn(name="address_id")
+    private Address address;
 }

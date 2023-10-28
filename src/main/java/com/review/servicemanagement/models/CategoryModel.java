@@ -17,6 +17,6 @@ public class CategoryModel  extends  BaseModel{
     @Column
     String categoryName;
     @JsonIgnore
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY,cascade = {CascadeType.REMOVE})
     List<ServiceModel> Service = new ArrayList<>();
 }

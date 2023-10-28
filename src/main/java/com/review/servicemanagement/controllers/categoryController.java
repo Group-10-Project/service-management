@@ -1,9 +1,14 @@
 package com.review.servicemanagement.controllers;
 
+import com.review.servicemanagement.dto.ExceptionDTO;
 import com.review.servicemanagement.dto.ResponseCategoryDTO;
 import com.review.servicemanagement.dto.createCategoryDTO;
 import com.review.servicemanagement.dto.updateCategoryDTO;
+import com.review.servicemanagement.exceptions.DuplicateValueException;
+import com.review.servicemanagement.exceptions.NotFoundException;
 import com.review.servicemanagement.services.Icategory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +22,12 @@ public class categoryController {
         this.categoryService = categoryService;
     }
     @PostMapping
-    public ResponseCategoryDTO createCategory(@RequestBody createCategoryDTO category){
+    public ResponseCategoryDTO createCategory(@RequestBody createCategoryDTO category) throws Exception{
             return this.categoryService.createCategory(category);
     }
 
     @GetMapping("/{id}")
-    public ResponseCategoryDTO getCategoryById(@PathVariable  String id){
+    public ResponseCategoryDTO getCategoryById(@PathVariable  String id) throws Exception{
         return this.categoryService.getCategoryById(id);
     }
     @GetMapping("/all")
@@ -31,7 +36,7 @@ public class categoryController {
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteCategory(@PathVariable String id) throws Exception {
+    public Boolean deleteCategory(@PathVariable String id) throws NotFoundException {
         return this.categoryService.deleteCategory(id);
     }
 
