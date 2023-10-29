@@ -3,6 +3,7 @@ package com.review.servicemanagement.controllers;
 import com.review.servicemanagement.dto.ResponseServiceDTO;
 import com.review.servicemanagement.dto.UpdateServiceDTO;
 import com.review.servicemanagement.dto.createServiceDTO;
+import com.review.servicemanagement.dto.internal.ServiceQueryParams;
 import com.review.servicemanagement.services.Iservice;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +26,9 @@ public class servicesController {
     }
 
     @GetMapping("/all")
-    public List<ResponseServiceDTO> getAllServices(){
+    public List<ResponseServiceDTO> getAllServices(@RequestBody(required = false) ServiceQueryParams params){
 
-        return this.service.getAllServices();
+        return this.service.getAllServices(params);
     }
 
 

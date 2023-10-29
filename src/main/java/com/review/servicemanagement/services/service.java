@@ -3,6 +3,7 @@ package com.review.servicemanagement.services;
 import com.review.servicemanagement.dto.ResponseServiceDTO;
 import com.review.servicemanagement.dto.UpdateServiceDTO;
 import com.review.servicemanagement.dto.createServiceDTO;
+import com.review.servicemanagement.dto.internal.ServiceQueryParams;
 import com.review.servicemanagement.exceptions.NotFoundException;
 import com.review.servicemanagement.models.Address;
 import com.review.servicemanagement.models.CategoryModel;
@@ -36,9 +37,21 @@ public class service implements  Iservice{
     }
 
     @Override
-    public List<ResponseServiceDTO> getAllServices() {
+    public List<ResponseServiceDTO> getAllServices(ServiceQueryParams params) {
 
-         List<ServiceModel> services =   serviceRepo.findAll();
+        List<ServiceModel> services;
+
+        if(params != null && params.getCategoryIds() != null){
+            List<UUID> uuids = new ArrayList<>();
+            //params.getCategoryIds().forEach( id -> uuids.add(UUID.fromString(id)));
+            uuids.add(UUID.fromString(params.getCategoryIds()));
+            services = serviceRepo.findByCategory_IdIn( uuids);
+
+        }
+        else {
+            services = serviceRepo.findAll();
+        }
+
          return ResponseServiceDTO.from(services);
     }
 
