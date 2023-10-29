@@ -5,6 +5,8 @@ import com.review.servicemanagement.dto.UpdateServiceDTO;
 import com.review.servicemanagement.dto.createServiceDTO;
 import com.review.servicemanagement.dto.internal.ServiceQueryParams;
 import com.review.servicemanagement.services.Iservice;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class servicesController {
     }
 
     @GetMapping("/all")
+    @Operation(summary = "Gets All Services")
     public List<ResponseServiceDTO> getAllServices(@RequestBody(required = false) ServiceQueryParams params){
 
         return this.service.getAllServices(params);

@@ -7,6 +7,7 @@ import com.review.servicemanagement.dto.updateCategoryDTO;
 import com.review.servicemanagement.exceptions.DuplicateValueException;
 import com.review.servicemanagement.exceptions.NotFoundException;
 import com.review.servicemanagement.services.Icategory;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +23,13 @@ public class categoryController {
         this.categoryService = categoryService;
     }
     @PostMapping
+    @Operation(summary = "Creates a new Category")
     public ResponseCategoryDTO createCategory(@RequestBody createCategoryDTO category) throws Exception{
             return this.categoryService.createCategory(category);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Fetch a Category By Its Id")
     public ResponseCategoryDTO getCategoryById(@PathVariable  String id) throws Exception{
         return this.categoryService.getCategoryById(id);
     }
