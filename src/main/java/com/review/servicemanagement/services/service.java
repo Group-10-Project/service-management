@@ -43,8 +43,8 @@ public class service implements  Iservice{
 
         if(params != null && params.getCategoryIds() != null){
             List<UUID> uuids = new ArrayList<>();
-            //params.getCategoryIds().forEach( id -> uuids.add(UUID.fromString(id)));
-            uuids.add(UUID.fromString(params.getCategoryIds()));
+            params.getCategoryIds().forEach( id -> uuids.add(UUID.fromString(id)));
+            //uuids.add(UUID.fromString(params.getCategoryIds()));
             services = serviceRepo.findByCategory_IdIn( uuids);
 
         }
