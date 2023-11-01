@@ -38,7 +38,10 @@ public class categoryService  implements  Icategory{
         if(categoryModel.isEmpty()) {
             throw new NotFoundException("Category ID Not Found");
         }
-        else if(categoryModel.get().getCategoryName().equalsIgnoreCase(category.getCategoryName())){
+
+        Optional<CategoryModel> categoryByNameOptional= this.categoryRepository.findByCategoryName(category.getCategoryName());
+        //else if(categoryModel.get().getCategoryName().equalsIgnoreCase(category.getCategoryName())){
+        if(categoryByNameOptional.isPresent()){
             throw new DuplicateValueException("Duplicate Category Name Found");
         }
 
@@ -87,6 +90,7 @@ public class categoryService  implements  Icategory{
         return category;
 
     }
+
 
     private CategoryModel getCategoryByName(String name){
         Optional<CategoryModel> category = this.categoryRepository.findByCategoryName(name);
