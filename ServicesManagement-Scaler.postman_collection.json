@@ -8,9 +8,21 @@
 	"item": [
 		{
 			"name": "GetAllServices",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categoryIds\": [\"219db6f3-53e2-4e93-8698-24a389cf91b5\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:8080/services/all",
 					"protocol": "http",
@@ -101,7 +113,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"0fc044fe-b7f7-4022-afcc-3b98492dea3c\",\r\n    \"name\": \"Co-Live-1\",\r\n    \"description\": \"Apartment for Coliving-1\",\r\n    \"categoryId\":\"219db6f3-53e2-4e93-8698-24a389cf91b5\",\r\n    \"address\": {\r\n        \"id\": \"3ba008f6-3652-4e7c-8afa-781016591017\",\r\n        \"streetName\": \"Street Name\",\r\n        \"houseNumber\": \"H1\",\r\n        \"location\": \"India\",\r\n        \"pincode\": 632509\r\n    }\r\n}",
+					"raw": " {\r\n        \"id\": \"22ba686a-a730-49ef-a29d-6a47c3efe4e3\",\r\n        \"name\": \"Co-Live-1\",\r\n        \"description\": \"Apartment for Coliving-1\",\r\n        \"categoryId\":\"219db6f3-53e2-4e93-8698-24a389cf91b5\",\r\n        \"address\": {\r\n            \"id\": \"ae8a1b2f-9628-4892-9815-c43f69179188\",\r\n            \"streetName\": \"Street Names\",\r\n            \"houseNumber\": \"HTEST1\",\r\n            \"location\": \"India\",\r\n            \"pincode\": 632509\r\n        }\r\n    },",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -109,7 +121,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/services/0fc044fe-b7f7-4022-afcc-3b98492dea3c",
+					"raw": "http://localhost:8080/services/22ba686a-a730-49ef-a29d-6a47c3efe4e3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -117,7 +129,7 @@
 					"port": "8080",
 					"path": [
 						"services",
-						"0fc044fe-b7f7-4022-afcc-3b98492dea3c"
+						"22ba686a-a730-49ef-a29d-6a47c3efe4e3"
 					]
 				}
 			},
