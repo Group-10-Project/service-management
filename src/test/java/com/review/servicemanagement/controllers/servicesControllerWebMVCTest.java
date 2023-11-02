@@ -6,6 +6,7 @@ import com.review.servicemanagement.dto.UpdateServiceDTO;
 import com.review.servicemanagement.dto.createServiceDTO;
 import com.review.servicemanagement.dto.internal.ServiceQueryParams;
 import com.review.servicemanagement.exceptions.NotFoundException;
+import com.review.servicemanagement.helperFunctions.helperFunctions;
 import com.review.servicemanagement.models.Address;
 import com.review.servicemanagement.services.Iservice;
 import org.junit.jupiter.api.Test;
@@ -40,12 +41,14 @@ public class servicesControllerWebMVCTest {
 
     @Autowired
     ObjectMapper  objectMapper;
+    @Autowired
+    helperFunctions helperFunction;
 
     @Test
     void getServicesById_success() throws Exception {
 
         //Arrange
-        ResponseServiceDTO serviceResponse = helperFunctionToCreateServiceResponse();
+        ResponseServiceDTO serviceResponse = helperFunction.helperFunctionToCreateServiceResponse();
 
         when(service.getServiceById(any())).thenReturn(serviceResponse);
 
@@ -83,8 +86,8 @@ public class servicesControllerWebMVCTest {
     @Test
     void createService_success() throws Exception{
         //Arrange
-            createServiceDTO serviceObject = helperFunctionToCreateServiceInput();
-            ResponseServiceDTO serviceResponse = helperFunctionToCreateServiceResponse();
+            createServiceDTO serviceObject = helperFunction.helperFunctionToCreateServiceInput();
+            ResponseServiceDTO serviceResponse = helperFunction.helperFunctionToCreateServiceResponse();
             when(service.createService(any())).thenReturn(serviceResponse);
 
         //Act
@@ -97,7 +100,7 @@ public class servicesControllerWebMVCTest {
 
     @Test
     void updateService_success() throws  Exception{
-        ResponseServiceDTO response = helperFunctionToCreateServiceResponse();
+        ResponseServiceDTO response = helperFunction.helperFunctionToCreateServiceResponse();
         when(service.updateService(any(),any())).thenReturn(response);
         mockMvc.perform(put("/services/"+sampleUUID).contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new UpdateServiceDTO()))).andExpect(
@@ -107,7 +110,7 @@ public class servicesControllerWebMVCTest {
 
     @Test
     void updateService_unsuccessful_throwsNotFoundException() throws  Exception{
-        ResponseServiceDTO response = helperFunctionToCreateServiceResponse();
+        ResponseServiceDTO response = helperFunction.helperFunctionToCreateServiceResponse();
         when(service.updateService(any(),any())).thenThrow(new NotFoundException("Service Not Found"));
         mockMvc.perform(put("/services/"+sampleUUID).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UpdateServiceDTO()))).andExpect(
@@ -117,7 +120,7 @@ public class servicesControllerWebMVCTest {
     }
     @Test
     void updateService_unsuccessful_throwsCategoryNotFoundException() throws  Exception{
-        ResponseServiceDTO response = helperFunctionToCreateServiceResponse();
+        ResponseServiceDTO response = helperFunction.helperFunctionToCreateServiceResponse();
         when(service.updateService(any(),any())).thenThrow(new NotFoundException("Unable to Find the Category"));
         mockMvc.perform(put("/services/"+sampleUUID).contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UpdateServiceDTO()))).andExpect(
@@ -146,7 +149,7 @@ public class servicesControllerWebMVCTest {
                 .andExpect(jsonPath("$.message").value("Service Not Found"));
     }
 
-    private ResponseServiceDTO helperFunctionToCreateServiceResponse(){
+  /*  private ResponseServiceDTO helperFunctionToCreateServiceResponse(){
 
         ResponseServiceDTO serviceResponse = new ResponseServiceDTO();
         serviceResponse.setId(UUID.randomUUID());
@@ -172,5 +175,5 @@ public class servicesControllerWebMVCTest {
         address.setHouseNumber("123");
         address.setStreetName("Test Street");
         return address;
-    }
+    }*/
 }
