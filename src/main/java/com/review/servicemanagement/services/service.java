@@ -124,7 +124,7 @@ public class service implements  Iservice{
         UUID uuid = UUID.fromString(id);
         Optional<ServiceModel> service =  this.serviceRepo.findById(uuid);
         if(service.isEmpty()){
-            throw new Exception("Service Not Found");
+            throw new NotFoundException("Service Not Found");
         }
         this.serviceRepo.deleteById(uuid);
         return true;
