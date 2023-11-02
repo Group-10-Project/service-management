@@ -163,8 +163,10 @@ public class categoryServiceTest {
     @Test
     void updateCategory_UnSuccessful_throwsNotFoundException() throws  Exception{
         updateCategoryDTO updatedCategory = new updateCategoryDTO();
+        updatedCategory.setId(sampleCategoryId);
+        updatedCategory.setCategoryName("test-tass");
         assertThrows(NotFoundException.class,()-> categoryService.updateCategory(sampleCategoryId,updatedCategory));
-        assertEquals(categoryService.updateCategory(sampleCategoryId,updatedCategory).toString(),"Category ID Not Found");
+        //assertEquals(categoryService.updateCategory(sampleCategoryId,updatedCategory).toString(),"Category ID Not Found");
     }
     @Test
     void updateCategory_UnSuccessful_throwsDuplicateException() throws  Exception{
