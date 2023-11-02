@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(categoryController.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class categoryControllerWebMVCTest {
     @Autowired
     private MockMvc mockMvc;
@@ -165,7 +167,7 @@ public class categoryControllerWebMVCTest {
 
         ResponseCategoryDTO response = ResponseCategoryDTO.from(updateCategory);
         when(categoryService.updateCategory(any(),any())).thenReturn(response);
-        mockMvc.perform(put("/category/123").contentType(MediaType.APPLICATION_JSON).content(String.valueOf(updateCategory)))
+        mockMvc.perform(put("/category/123").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updateCategory)))
                 .andExpect(content().string(objectMapper.writeValueAsString(response)));
     }
     @Test
@@ -175,7 +177,7 @@ public class categoryControllerWebMVCTest {
         updateCategory.setId(UUID.randomUUID());
 
         when(categoryService.updateCategory(any(),any())).thenThrow(new NotFoundException("Category Not Found"));
-        mockMvc.perform(put("/category/123").contentType(MediaType.APPLICATION_JSON).content(String.valueOf(updateCategory)))
+        mockMvc.perform(put("/category/123").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(updateCategory)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value("NOT_FOUND"))
                 .andExpect(jsonPath("$.message").value("Category Not Found"));
