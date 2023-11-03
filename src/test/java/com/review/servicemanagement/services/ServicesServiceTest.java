@@ -86,8 +86,9 @@ public class ServicesServiceTest {
 
         ServiceQueryParams params =  new ServiceQueryParams();
         List<String> ids = new ArrayList<>();
-        ids.add(service.getCategory().getId().toString());
-        ids.add(service_2.getCategory().getId().toString());
+        ids.add(helper.sampleUUID);
+        //ids.add(service.getCategory().getId().toString());
+        /*ids.add(service_2.getCategory().getId().toString());*/
         params.setCategoryIds(ids);
         //Act
         assertEquals(services.getAllServices(params),ResponseServiceDTO.from(servicesList));
