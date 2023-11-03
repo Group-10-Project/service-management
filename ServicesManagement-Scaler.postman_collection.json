@@ -16,7 +16,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"categoryIds\": [\"219db6f3-53e2-4e93-8698-24a389cf91b5\"]\r\n}",
+					"raw": "{\r\n    \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -24,12 +24,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/services/all",
+					"raw": "http://{{Domain}}/services/all",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"services",
 						"all"
@@ -44,15 +43,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/services/c0cc3f18-ee04-476d-b49e-ac7ad71b7ae0",
+					"raw": "http://{{Domain}}/services/2968d91f-67d9-4264-8992-ddeb46e24c2e",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"services",
-						"c0cc3f18-ee04-476d-b49e-ac7ad71b7ae0"
+						"2968d91f-67d9-4264-8992-ddeb46e24c2e"
 					]
 				}
 			},
@@ -93,12 +91,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/services",
+					"raw": "http://{{Domain}}/services",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"services"
 					]
@@ -121,12 +118,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/services/22ba686a-a730-49ef-a29d-6a47c3efe4e3",
+					"raw": "http://{{Domain}}/services/22ba686a-a730-49ef-a29d-6a47c3efe4e3",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"services",
 						"22ba686a-a730-49ef-a29d-6a47c3efe4e3"
@@ -150,12 +146,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/category",
+					"raw": "http://{{Domain}}/category",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"category"
 					]
@@ -169,12 +164,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/category/all",
+					"raw": "http://{{Domain}}/category/all",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"category",
 						"all"
@@ -189,15 +183,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/category/f367d3b2-774c-439a-b56b-9c0179a0b3c1",
+					"raw": "http://{{Domain}}/category/219db6f3-53e2-4e93-8698-24a389cf91b5",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"category",
-						"f367d3b2-774c-439a-b56b-9c0179a0b3c1"
+						"219db6f3-53e2-4e93-8698-24a389cf91b5"
 					]
 				}
 			},
@@ -210,23 +203,22 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"categoryName\":\"Test Name\";\r\n}",
+					"raw": " {\r\n        \"id\": \"219db6f3-53e2-4e93-8698-24a389cf91b5\",\r\n        \"categoryName\": \"Co-Living Apartment\"\r\n    }",
 					"options": {
 						"raw": {
-							"language": "javascript"
+							"language": "json"
 						}
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/category/123",
+					"raw": "http://{{Domain}}/category/219db6f3-53e2-4e93-8698-24a389cf91b5",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"category",
-						"123"
+						"219db6f3-53e2-4e93-8698-24a389cf91b5"
 					]
 				}
 			},
@@ -238,19 +230,44 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/category/d95b32b2-39f3-4a9c-8bbd-d006aaca4dae\"",
+					"raw": "http://{{Domain}}/category/af27fe1a-3a0b-4556-abf0-d9a3c2dcb2b7",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{Domain}}"
 					],
-					"port": "8080",
 					"path": [
 						"category",
-						"d95b32b2-39f3-4a9c-8bbd-d006aaca4dae\""
+						"af27fe1a-3a0b-4556-abf0-d9a3c2dcb2b7"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Domain",
+			"value": "localhost:8080"
 		}
 	]
 }
