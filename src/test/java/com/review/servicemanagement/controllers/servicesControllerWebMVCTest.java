@@ -41,8 +41,13 @@ public class servicesControllerWebMVCTest {
 
     @Autowired
     ObjectMapper  objectMapper;
-    @Autowired
+
     helperFunctions helperFunction;
+
+     public servicesControllerWebMVCTest(){
+         helperFunction = new helperFunctions();
+     }
+
 
     @Test
     void getServicesById_success() throws Exception {

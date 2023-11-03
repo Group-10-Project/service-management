@@ -42,8 +42,7 @@ public class ServicesServiceTest {
     @Autowired
     Iservice services;
 
-    @Autowired
-    helperFunctions helper;
+    helperFunctions helper = new helperFunctions();
 
     @Test
     void getServiceById_unsuccess_returnsEmpty() throws Exception{
