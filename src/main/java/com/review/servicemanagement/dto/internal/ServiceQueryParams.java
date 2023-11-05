@@ -9,4 +9,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ServiceQueryParams {
     List<String> categoryIds;
+    String name;
 }

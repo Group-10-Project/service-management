@@ -40,18 +40,23 @@ public class service implements  Iservice{
     public List<ResponseServiceDTO> getAllServices(ServiceQueryParams params) {
 
         List<ServiceModel> services;
-
-        if(params != null && params.getCategoryIds() != null){
-            List<UUID> uuids = new ArrayList<>();
-            params.getCategoryIds().forEach( id -> uuids.add(UUID.fromString(id)));
-            //uuids.add(UUID.fromString(params.getCategoryIds()));
-            services = serviceRepo.findByCategory_IdIn( uuids);
-
+        services = serviceRepo.findAll();
+        if(params != null){
+            List<ServiceModel> servicesList = new ArrayList<>();
+            if( params.getCategoryIds() != null) {
+                List<UUID> uuids = new ArrayList<>();
+                params.getCategoryIds().forEach(id -> uuids.add(UUID.fromString(id)));
+                //uuids.add(UUID.fromString(params.getCategoryIds()));
+                services = serviceRepo.findByCategory_IdIn(uuids);
+                services = services.stream().filter( (service) -> uuids.contains(service.getCategory().getId())).toList();
+            }
+            if(params.getName() != null){
+                services = services.stream().filter((service) -> service.getName().contains(params.getName())).toList();
+            }
         }
-        else {
+       /* else {
             services = serviceRepo.findAll();
-        }
-
+        }*/
          return ResponseServiceDTO.from(services);
     }
 
@@ -129,4 +134,11 @@ public class service implements  Iservice{
         this.serviceRepo.deleteById(uuid);
         return true;
     }
+
+    @Override
+    public List<ResponseServiceDTO> findServicesByName(String name){
+
+        return ResponseServiceDTO.from(this.serviceRepo.findByNameContainsIgnoreCase(name));
+    }
+
 }

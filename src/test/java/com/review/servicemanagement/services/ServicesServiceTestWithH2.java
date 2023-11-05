@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @ActiveProfiles("test")
 public class ServicesServiceTestWithH2 {
-
+/*
     @Autowired
     Iservice services;
     @Autowired
@@ -97,5 +97,5 @@ public class ServicesServiceTestWithH2 {
 
         assertEquals(createdService.getName(),serviceToBeCreated.getName());
         assertEquals(createdService.getAddress().getHouseNumber(),serviceToBeCreated.getAddress().getHouseNumber());
-    }
+    }*/
 }

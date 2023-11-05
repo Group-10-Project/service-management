@@ -16,4 +16,6 @@ public interface Iservice {
     ResponseServiceDTO updateService(@PathVariable String id,@RequestBody UpdateServiceDTO serviceInfo) throws Exception;
     Boolean deleteService(@PathVariable String id) throws Exception;
 
+    List<ResponseServiceDTO> findServicesByName(String name);
+
 }

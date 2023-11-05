@@ -14,4 +14,6 @@ public interface ServiceRepository extends JpaRepository<ServiceModel, UUID> {
     Optional<ResponseServiceDTO> findByIdAndAddress_Id(UUID serviceId,UUID addressId );
     List<ServiceModel> findByCategory_IdIn(List<UUID> categoriesID);
 
+    List<ServiceModel> findByNameContainsIgnoreCase(String name);
+
 }
