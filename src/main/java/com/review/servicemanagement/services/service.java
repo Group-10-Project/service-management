@@ -42,12 +42,12 @@ public class service implements  Iservice{
         List<ServiceModel> services;
         services = serviceRepo.findAll();
         if(params != null){
-            List<ServiceModel> servicesList = new ArrayList<>();
+            //List<ServiceModel> servicesList = new ArrayList<>();
             if( params.getCategoryIds() != null) {
                 List<UUID> uuids = new ArrayList<>();
                 params.getCategoryIds().forEach(id -> uuids.add(UUID.fromString(id)));
                 //uuids.add(UUID.fromString(params.getCategoryIds()));
-                services = serviceRepo.findByCategory_IdIn(uuids);
+               // services = serviceRepo.findByCategory_IdIn(uuids);
                 services = services.stream().filter( (service) -> uuids.contains(service.getCategory().getId())).toList();
             }
             if(params.getName() != null){

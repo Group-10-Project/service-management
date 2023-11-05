@@ -79,11 +79,13 @@ public class ServicesServiceTest {
 
         List<ServiceModel> servicesList = new ArrayList<>();
         ServiceModel service = helper.createServiceModel();
+        service.getCategory().setId(UUID.fromString(helper.sampleUUID));
         ServiceModel service_2 = helper.createServiceModel();
         servicesList.add(service);
         servicesList.add(service_2);
 
-        when(serviceRepo.findByCategory_IdIn(any())).thenReturn(servicesList);
+        //when(serviceRepo.findByCategory_IdIn(any())).thenReturn(servicesList);
+        when(serviceRepo.findAll()).thenReturn(servicesList);
 
         ServiceQueryParams params =  new ServiceQueryParams();
         List<String> ids = new ArrayList<>();
@@ -92,9 +94,54 @@ public class ServicesServiceTest {
         /*ids.add(service_2.getCategory().getId().toString());*/
         params.setCategoryIds(ids);
         //Act
-        assertEquals(services.getAllServices(params),ResponseServiceDTO.from(servicesList));
+        assertEquals(services.getAllServices(params).size(),1);
+        assertEquals(services.getAllServices(params).get(0),ResponseServiceDTO.from(service));
     }
 
+    @Test
+    void getServices_withFilterOnServiceName() throws Exception{
+        //Arrange
+
+        List<ServiceModel> servicesList = new ArrayList<>();
+        ServiceModel service = helper.createServiceModel();
+        service.getCategory().setId(UUID.fromString(helper.sampleUUID));
+        ServiceModel service_2 = helper.createServiceModel();
+        service_2.setName("Dummy");
+        servicesList.add(service);
+        servicesList.add(service_2);
+
+        //when(serviceRepo.findByCategory_IdIn(any())).thenReturn(servicesList);
+        when(serviceRepo.findAll()).thenReturn(servicesList);
+
+        ServiceQueryParams params =  new ServiceQueryParams();
+        params.setName("Dum");
+        //Act
+        assertEquals(services.getAllServices(params).size(),1);
+        assertEquals(services.getAllServices(params).get(0),ResponseServiceDTO.from(service_2));
+    }
+    @Test
+    void getServices_withFilterOnServiceNameandCategoryId() throws Exception{
+        //Arrange
+
+        List<ServiceModel> servicesList = new ArrayList<>();
+        ServiceModel service = helper.createServiceModel();
+        service.setName("Dummy");
+        service.getCategory().setId(UUID.fromString(helper.sampleUUID));
+        ServiceModel service_2 = helper.createServiceModel();
+        servicesList.add(service);
+        servicesList.add(service_2);
+
+        when(serviceRepo.findAll()).thenReturn(servicesList);
+
+        ServiceQueryParams params =  new ServiceQueryParams();
+        params.setName("Dum");
+        List<String> ids = new ArrayList<>();
+        ids.add(helper.sampleUUID);
+        params.setCategoryIds(ids);
+        //Act
+        assertEquals(services.getAllServices(params).size(),1);
+        assertEquals(services.getAllServices(params).get(0),ResponseServiceDTO.from(service));
+    }
     @Test
     void createService_success() throws Exception{
         createServiceDTO service = helper.helperFunctionToCreateServiceInput(false);
