@@ -53,6 +53,7 @@ public class ServicesServiceTest {
     @Test
     void getServiceById_success() throws Exception{
         ServiceModel service = new ServiceModel();
+        service.setId(UUID.fromString(helper.sampleUUID));
         when(serviceRepo.findById(any())).thenReturn(Optional.of(service));
 
         assertEquals(services.getServiceById(UUID.randomUUID().toString()),ResponseServiceDTO.from(service));
@@ -96,10 +97,11 @@ public class ServicesServiceTest {
 
     @Test
     void createService_success() throws Exception{
-        createServiceDTO service = helper.helperFunctionToCreateServiceInput();
+        createServiceDTO service = helper.helperFunctionToCreateServiceInput(false);
         ServiceModel serviceModel = helper.createServiceModel();
 
         when(serviceRepo.save(any())).thenReturn(serviceModel);
+        when(CategoryService.findOrCreateUnListedCategory()).thenReturn(serviceModel.getCategory());
         when(categoryRepository.findById(any())).thenReturn(Optional.ofNullable(serviceModel.getCategory()));
 
         assertEquals(services.createService(service),ResponseServiceDTO.from(serviceModel));
@@ -107,7 +109,7 @@ public class ServicesServiceTest {
     }
     @Test
     void createService_CreatesNewCategorysuccess() throws Exception{
-        createServiceDTO service = helper.helperFunctionToCreateServiceInput();
+        createServiceDTO service = helper.helperFunctionToCreateServiceInput(false);
         ServiceModel serviceModel = helper.createServiceModel();
 
         when(categoryRepository.findById(any())).thenReturn(Optional.ofNullable(null));

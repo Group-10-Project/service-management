@@ -19,18 +19,18 @@ public class helperFunctions {
     public ResponseServiceDTO helperFunctionToCreateServiceResponse(){
 
         ResponseServiceDTO serviceResponse = new ResponseServiceDTO();
-        serviceResponse.setId(UUID.randomUUID());
+        serviceResponse.setId(sampleUUID);
         serviceResponse.setCategory(null);
         serviceResponse.setDescription("Test Description");
         serviceResponse.setName("Test Name");
         serviceResponse.setAddress( helperFunctionToCreateAddress(true));
         return serviceResponse;
     }
-    public  createServiceDTO helperFunctionToCreateServiceInput(){
+    public  createServiceDTO helperFunctionToCreateServiceInput(Boolean setCategoryId){
         createServiceDTO serviceResponse = new createServiceDTO();
         serviceResponse.setDescription("Test Description");
         serviceResponse.setName("Test Name");
-        serviceResponse.setCategoryId(sampleUUID);
+        if(setCategoryId)serviceResponse.setCategoryId(sampleUUID);
         serviceResponse.setAddress( helperFunctionToCreateAddress(false));
         return serviceResponse;
     }

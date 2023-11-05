@@ -43,12 +43,26 @@ public class ServicesServiceTestWithH2 {
 
         assertEquals(services.getServiceById(helper.sampleUUID.toString()),null);
     }
-/*
+
+    @Test void deleteService_existingService() throws Exception{
+        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput(false);
+        ResponseServiceDTO response =   services.createService(serviceToBeCreated);
+        assertEquals(services.deleteService(response.getId().toString()),true);
+    }
+    @Test void deleteService_nonexistingService_throwsNotFound() throws Exception{
+        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput(false);
+        ResponseServiceDTO response =   services.createService(serviceToBeCreated);
+        assertEquals(services.deleteService(response.getId().toString()),true);
+    }
+
     @Test
     void getServiceById_success() throws Exception{
-        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput();
+
+        //ResponseCategoryDTO categoryResponse=    categoryService.createCategory(helper.createCategoryDTO());
+        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput(false);
+        //serviceToBeCreated.setCategoryId(categoryResponse.getId());
         ResponseServiceDTO response =   services.createService(serviceToBeCreated);
-        ResponseServiceDTO responseService = services.getServiceById(response.getId().toString());
+        ResponseServiceDTO responseService = services.getServiceById(String.valueOf(response.getId()));
         assertEquals(responseService, response);
     }
 
@@ -58,7 +72,7 @@ public class ServicesServiceTestWithH2 {
         assertEquals(serviceList, new ArrayList<>());
     }
     @Test void getAllServices_withServices_success() throws Exception{
-        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput();
+        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput(false);
          ResponseServiceDTO createdService =  services.createService(serviceToBeCreated);
 
         ServiceQueryParams params = helper.createServiceQueryParams(new ArrayList<>());
@@ -68,13 +82,20 @@ public class ServicesServiceTestWithH2 {
     }
 
     @Test void createService_withoutCategory_success() throws Exception{
-
-        createCategoryDTO createCategory = helper.createCategoryDTO();
-        ResponseCategoryDTO categoryResponse =  categoryService.createCategory(createCategory);
-
-        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput();
-        serviceToBeCreated.setCategoryId(categoryResponse.getId());
-
+        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput(false);
         ResponseServiceDTO createdService =  services.createService(serviceToBeCreated);
-    }*/
+
+        assertEquals(createdService.getName(),serviceToBeCreated.getName());
+        assertEquals(createdService.getAddress().getHouseNumber(),serviceToBeCreated.getAddress().getHouseNumber());
+    }
+    @Test void createService_withCategory_success() throws Exception{
+        createCategoryDTO createCategoryDTO = helper.createCategoryDTO();
+        ResponseCategoryDTO categoryStored = categoryService.createCategory(createCategoryDTO);
+        createServiceDTO serviceToBeCreated =  helper.helperFunctionToCreateServiceInput(false);
+        serviceToBeCreated.setCategoryId(categoryStored.getId());
+        ResponseServiceDTO createdService =  services.createService(serviceToBeCreated);
+
+        assertEquals(createdService.getName(),serviceToBeCreated.getName());
+        assertEquals(createdService.getAddress().getHouseNumber(),serviceToBeCreated.getAddress().getHouseNumber());
+    }
 }

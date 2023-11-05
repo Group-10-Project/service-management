@@ -85,7 +85,8 @@ public class categoryService  implements  Icategory{
         if(category == null) {
             CategoryModel newCategory = new CategoryModel();
             newCategory.setCategoryName("UnListed");
-            category =  this.categoryRepository.save(newCategory);
+            //category =  this.categoryRepository.save(newCategory);
+            category = newCategory;
         }
         return category;
 

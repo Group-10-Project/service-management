@@ -91,7 +91,7 @@ public class servicesControllerWebMVCTest {
     @Test
     void createService_success() throws Exception{
         //Arrange
-            createServiceDTO serviceObject = helperFunction.helperFunctionToCreateServiceInput();
+            createServiceDTO serviceObject = helperFunction.helperFunctionToCreateServiceInput(true);
             ResponseServiceDTO serviceResponse = helperFunction.helperFunctionToCreateServiceResponse();
             when(service.createService(any())).thenReturn(serviceResponse);
 

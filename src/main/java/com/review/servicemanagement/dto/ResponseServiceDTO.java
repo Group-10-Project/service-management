@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 public class ResponseServiceDTO {
-    UUID id;
+    String id;
     String name;
     String description;
     CategoryModel category;
@@ -20,7 +20,7 @@ public class ResponseServiceDTO {
     public static ResponseServiceDTO from(ServiceModel service) {
         ResponseServiceDTO ResponseServiceModel = new ResponseServiceDTO();
         ResponseServiceModel.setName(service.getName());
-        ResponseServiceModel.setId(service.getId());
+        ResponseServiceModel.setId(service.getId().toString());
         ResponseServiceModel.setCategory(service.getCategory());
         ResponseServiceModel.setDescription(service.getDescription());
         ResponseServiceModel.setAddress(service.getAddress());
