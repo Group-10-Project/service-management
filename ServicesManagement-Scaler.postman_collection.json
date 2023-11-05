@@ -38,6 +38,37 @@
 			"response": []
 		},
 		{
+			"name": "GetAllServices With Filters",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categoryIds\":[\"64b5f662-8c09-4fbd-9f4a-b02c11d4846b\",\"f51c7673-011a-431b-8d2f-6377d5e6ad07\"],\r\n    \"name\":\"10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{Domain}}/services/all",
+					"protocol": "http",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"services",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GetServiceByID",
 			"request": {
 				"method": "GET",
@@ -83,7 +114,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"Co-Live-1\",\r\n    \"description\": \"Apartment for Coliving-1\",\r\n    \"categoryId\":\"f2f0e6ba-ed32-4040-a485-e1df63eaad0f\",\r\n    \"address\":{\r\n        \"houseNumber\":\"H1\",\r\n        \"streetName\":\"Street Name\",\r\n        \"location\":\"India\",\r\n        \"pincode\":\"632509\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"name\":\"Co-Live-1\",\r\n    \"description\": \"Apartment for Coliving-1\",\r\n    \"categoryId\":\"f51c7673-011a-431b-8d2f-6377d5e6ad07\",\r\n    \"address\":{\r\n        \"houseNumber\":\"H1\",\r\n        \"streetName\":\"Street Name\",\r\n        \"location\":\"India\",\r\n        \"pincode\":\"632509\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -250,7 +281,14 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"if(pm.environment.get(\"Server\") ==\"AWS\") {",
+					"",
+					"    pm.environment.set(\"Domain\", \"s10-env.eba-msqf6dd2.eu-north-1.elasticbeanstalk.com:8080\");",
+					"};",
+					"if(pm.environment.get(\"Server\") ==\"LOCAL\") {",
+					"",
+					"    pm.environment.set(\"Domain\", \"localhost:8080\");",
+					"};"
 				]
 			}
 		},
@@ -265,6 +303,11 @@
 		}
 	],
 	"variable": [
+		{
+			"key": "Server",
+			"value": "AWS",
+			"type": "string"
+		},
 		{
 			"key": "Domain",
 			"value": "localhost:8080"
